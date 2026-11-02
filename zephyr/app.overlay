@@ -1,0 +1,43 @@
+#include <zephyr/dt-bindings/gpio/gpio.h>
+
+/ {
+	aliases {
+		rgb-data = &rgb_matrix_data;
+		imu-wake = &imu_wake;
+		mode-button = &mode_button;
+	};
+
+	mode_buttons {
+		compatible = "gpio-keys";
+		mode_button: mode-button {
+			gpios = <&gpioa 1 (GPIO_PULL_DOWN | GPIO_ACTIVE_HIGH)>;
+			label = "Grove Button on D1";
+		};
+	};
+
+	imu_wake_pins {
+		compatible = "gpio-keys";
+		imu_wake: imu-wake {
+			gpios = <&gpioc 13 GPIO_ACTIVE_HIGH>;
+			label = "LSM6DS3TR-C INT1";
+		};
+	};
+
+	/* D0/PA0 drives two cascaded 6 x 10 panels (first DOUT -> second DIN). */
+	rgb_matrix_pins {
+		compatible = "gpio-leds";
+
+		rgb_matrix_data: rgb-matrix-data {
+			gpios = <&gpioa 0 GPIO_ACTIVE_HIGH>;
+		};
+	};
+};
+
+/* The on-board LSM6DS3TR-C is polled at 50 Hz to animate the ocean. */
+&i2c2 {
+	status = "okay";
+};
+
+&lsm6ds3tr_c {
+	status = "okay";
+};
