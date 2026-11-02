@@ -4,11 +4,7 @@
 
 A handheld electronic ocean built with a XIAO STM32C5, its onboard LSM6DS3TR-C IMU, and two chained 6 × 10 RGB matrices. The 120 LEDs form one 6 × 20 display: tilt the enclosure and the waterline follows gravity; move it faster and the waves become more energetic.
 
-## Demo video and photos
-
-[![Watch the Electronic Ocean demo on YouTube](media/electronic-ocean-front.jpg)](https://www.youtube.com/shorts/ZSBuj6kjqKk)
-
-[Watch the Electronic Ocean demo on YouTube Shorts](https://www.youtube.com/shorts/ZSBuj6kjqKk)
+## Demo photos
 
 | Finished build | Inside the enclosure | Parts before assembly |
 |---|---|---|

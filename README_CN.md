@@ -4,11 +4,7 @@
 
 这是一个手持式电子海洋项目，使用 XIAO STM32C5、板载 LSM6DS3TR-C IMU 和两块串联的 6 × 10 RGB 灯板。120 颗灯被映射为一个完整的 6 × 20 显示区域：倾斜外壳时，水面会跟随重力方向变化；移动幅度增大时，波浪也会更加明显。
 
-## 演示视频与实物照片
-
-[![在 YouTube 观看电子海洋演示](media/electronic-ocean-front.jpg)](https://www.youtube.com/shorts/ZSBuj6kjqKk)
-
-[在 YouTube Shorts 观看演示视频](https://www.youtube.com/shorts/ZSBuj6kjqKk)
+## 实物演示照片
 
 | 成品效果 | 外壳内部 | 组装前的零件 |
 |---|---|---|
