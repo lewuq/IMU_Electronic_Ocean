@@ -4,6 +4,16 @@
 
 这是一个手持式电子海洋项目，使用 XIAO STM32C5、板载 LSM6DS3TR-C IMU 和两块串联的 6 × 10 RGB 灯板。120 颗灯被映射为一个完整的 6 × 20 显示区域：倾斜外壳时，水面会跟随重力方向变化；移动幅度增大时，波浪也会更加明显。
 
+## 演示视频与实物照片
+
+[![在 YouTube 观看电子海洋演示](media/electronic-ocean-front.jpg)](https://www.youtube.com/shorts/ZSBuj6kjqKk)
+
+[在 YouTube Shorts 观看演示视频](https://www.youtube.com/shorts/ZSBuj6kjqKk)
+
+| 成品效果 | 外壳内部 | 组装前的零件 |
+|---|---|---|
+| ![点亮后的电子海洋成品](media/electronic-ocean-front.jpg) | ![外壳内部的接线与电池](media/electronic-ocean-interior.jpg) | ![组装前的外壳、主控、电池和螺丝](media/electronic-ocean-assembly.jpg) |
+
 ## 功能
 
 - 两块灯板共同显示一片连续的海洋，水面不会在拼接处断开，填充面积约为一半
@@ -30,7 +40,7 @@
 | 第二块 6 × 10 RGB 灯板 | DIN 连接第一块的 DOUT | 串联，共 120 颗灯 |
 | Grove Button V1.3 | 信号连接 D1 / PA1；共地 | 灯效切换与长按控制 |
 
-两块灯板应保持相同朝向，第一块位于上方，第二块位于下方；第一块的 DIN 是整条数据链的入口。为灯板提供合适的电源，并使灯板与主控共地。不要让 GPIO 引脚直接承担灯板供电电流。如果装配方向不同，可能需要修改 `src/main.c` 中的显示坐标符号或灯珠映射。
+两块灯板应保持相同朝向，第一块位于上方，第二块位于下方；第一块的 DIN 是整条数据链的入口。为灯板提供合适的电源，并使灯板与主控共地。不要让 GPIO 引脚直接承担灯板供电电流。如果装配方向不同，可能需要修改 `software/src/main.c` 中的显示坐标符号或灯珠映射。
 
 ## 使用方法
 
@@ -48,16 +58,18 @@
 
 ## 编译与烧录
 
+完整的 PlatformIO 工程位于 [`software/`](software/) 中。在 VS Code 中使用“打开文件夹”选择 `software/`，不要选择仓库根目录或 `3d/`；外壳和图片文件均位于 PlatformIO 工程之外。
+
 安装 PlatformIO Core 或 VS Code 的 PlatformIO 扩展，并准备包含 `seeed-xiao-stm32c5` 板卡支持的 Seeed Studio 平台。本工程使用 Zephyr 框架。
 
 ```bash
 git clone https://github.com/lewuq/IMU_Electronic_Ocean.git
 cd IMU_Electronic_Ocean
-pio run
-pio run -t upload
+pio run -d software
+pio run -d software -t upload
 ```
 
-编译生成的 UF2 位于 `.pio/build/seeed-xiao-stm32c5/firmware.uf2`。如果所用环境支持，也可通过板载引导程序复制 UF2。D0 的 RGB 时序由程序生成，不依赖 NeoPixel 库。
+编译生成的 UF2 位于 `software/.pio/build/seeed-xiao-stm32c5/firmware.uf2`。如果所用环境支持，也可通过板载引导程序复制 UF2。D0 的 RGB 时序由程序生成，不依赖 NeoPixel 库。
 
 ## 3D 打印外壳
 
@@ -73,13 +85,14 @@ pio run -t upload
 ## 仓库结构
 
 ```text
-src/main.c                 海洋渲染、WS2812 输出、IMU 与按键控制
-zephyr/app.overlay         RGB、按键、IMU 中断和 I2C 设备树配置
-zephyr/prj.conf            Zephyr 驱动和堆栈配置
-zephyr/CMakeLists.txt      Zephyr 应用构建配置
-platformio.ini             PlatformIO 板卡和框架配置
-3d/                       四个可打印 STL（v1 与 v2）
-README.md                 英文说明
+software/                   用 PlatformIO 打开这个文件夹
+  platformio.ini            板卡和框架配置
+  src/main.c                海洋渲染、WS2812 输出、IMU 与按键控制
+  zephyr/                   设备树和 Zephyr 配置
+3d/                         四个可打印 STL（v1 与 v2）
+media/                      README 使用的演示照片
+README.md                   英文说明
+README_CN.md                中文说明
 ```
 
 ## 说明

@@ -4,6 +4,16 @@
 
 A handheld electronic ocean built with a XIAO STM32C5, its onboard LSM6DS3TR-C IMU, and two chained 6 × 10 RGB matrices. The 120 LEDs form one 6 × 20 display: tilt the enclosure and the waterline follows gravity; move it faster and the waves become more energetic.
 
+## Demo video and photos
+
+[![Watch the Electronic Ocean demo on YouTube](media/electronic-ocean-front.jpg)](https://www.youtube.com/shorts/ZSBuj6kjqKk)
+
+[Watch the Electronic Ocean demo on YouTube Shorts](https://www.youtube.com/shorts/ZSBuj6kjqKk)
+
+| Finished build | Inside the enclosure | Parts before assembly |
+|---|---|---|
+| ![Electronic Ocean with its RGB water surface lit](media/electronic-ocean-front.jpg) | ![Wiring and battery inside the enclosure](media/electronic-ocean-interior.jpg) | ![Enclosure, controller, battery, and fasteners before assembly](media/electronic-ocean-assembly.jpg) |
+
 ## Features
 
 - One continuous, approximately half-filled ocean across both matrices, including their seam
@@ -30,7 +40,7 @@ The LED-off state is a software standby, **not** MCU deep sleep or a hard power 
 | Second 6 × 10 RGB matrix | DIN to first matrix DOUT | Daisy chain; 120 pixels total |
 | Grove Button V1.3 | Signal to D1 / PA1; common GND | Mode switching and long-press control |
 
-Mount both panels upright with the same orientation, first panel above the second. The first panel's DIN is the start of the chain. Power the two matrices from an appropriate supply and connect their ground to the controller's ground. Do not draw the full matrix current from a GPIO pin. The enclosure and panel orientation used by the firmware are described in `src/main.c`; a different mounting may require changing the screen-axis signs or pixel mapping.
+Mount both panels upright with the same orientation, first panel above the second. The first panel's DIN is the start of the chain. Power the two matrices from an appropriate supply and connect their ground to the controller's ground. Do not draw the full matrix current from a GPIO pin. The enclosure and panel orientation used by the firmware are described in `software/src/main.c`; a different mounting may require changing the screen-axis signs or pixel mapping.
 
 ## Controls
 
@@ -48,16 +58,18 @@ Mount both panels upright with the same orientation, first panel above the secon
 
 ## Build and flash
 
+The PlatformIO project is entirely inside [`software/`](software/). In VS Code, use **Open Folder** on `software/`, not the repository root or `3d/`. The enclosure files and photos sit outside the PlatformIO project.
+
 Install PlatformIO Core or the PlatformIO extension for VS Code, with the Seeed Studio platform and its `seeed-xiao-stm32c5` board support. This project uses the Zephyr framework.
 
 ```bash
 git clone https://github.com/lewuq/IMU_Electronic_Ocean.git
 cd IMU_Electronic_Ocean
-pio run
-pio run -t upload
+pio run -d software
+pio run -d software -t upload
 ```
 
-The generated UF2 is at `.pio/build/seeed-xiao-stm32c5/firmware.uf2`. You can also copy the UF2 through the board's bootloader if your setup supports it. The RGB signal is generated in software on D0, so no NeoPixel library is needed.
+The generated UF2 is at `software/.pio/build/seeed-xiao-stm32c5/firmware.uf2`. You can also copy the UF2 through the board's bootloader if your setup supports it. The RGB signal is generated in software on D0, so no NeoPixel library is needed.
 
 ## 3D printable enclosure
 
@@ -73,13 +85,14 @@ Choose the front and rear from the **same version**. Check fit, orientation, mat
 ## Repository layout
 
 ```text
-src/main.c                 Ocean renderer, WS2812 output, IMU, and controls
-zephyr/app.overlay         RGB, button, IMU interrupt, and I2C device tree
-zephyr/prj.conf            Zephyr driver and stack configuration
-zephyr/CMakeLists.txt      Zephyr application build configuration
-platformio.ini             PlatformIO board and framework selection
-3d/                       Four printable STL parts (v1 and v2)
-README_CN.md               Chinese documentation
+software/                   Open this folder as the PlatformIO project
+  platformio.ini            Board and framework selection
+  src/main.c                Ocean renderer, WS2812 output, IMU, and controls
+  zephyr/                   Device tree and Zephyr configuration
+3d/                         Four printable STL parts (v1 and v2)
+media/                      Demo photographs used in this README
+README.md                   English documentation
+README_CN.md                Chinese documentation
 ```
 
 ## Notes
